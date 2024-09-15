@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gilgamesh's Dream - The Battle Against the Cybermen</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Courier New', monospace;
+            background-color: #000033;
+            color: #FFD700;
+            height: 100%;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            position: relative;
+        }
+        h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px #FFD700;
+        }
+        .dream-text {
+            font-size: 1.2em;
+            max-width: 800px;
+            margin: 20px auto;
+            line-height: 1.6;
+            opacity: 0;
+            transition: opacity 2s ease-in-out;
+        }
+        .cta-button {
+            background-color: #660066;
+            color: #FFD700;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        .cta-button:hover {
+            background-color: #FFD700;
+            color: #660066;
+        }
+        .cyberman {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #808080;
+            border-radius: 25px 25px 0 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.5s ease;
+        }
+        .cyberman::before, .cyberman::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background-color: #00FFFF;
+            border-radius: 50%;
+            position: absolute;
+            top: 10px;
+        }
+        .cyberman::before {
+            left: 10px;
+        }
+        .cyberman::after {
+            right: 10px;
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Gilgamesh's Dream</h1>
+        <div id="dream-text" class="dream-text"></div>
+        <button class="cta-button" onclick="revealDream()">Reveal the Dream</button>
+    </div>
+
+    <script>
+        const dreamText = `In the realm where stars and circuits intertwine,
+A golden sun rises, defiant and bright.
+Beneath its glow, a crimson spear stands tall,
+Piercing the veil 'tween flesh and gleaming steel.
+
+The path ahead, a dance of blood and chrome,
+Where human spirit meets unyielding code.
+Fear not the lure of unending days,
+For in finite breaths, true glory is bestowed.
+
+Arise, Gilgamesh! Let thy battle cry,
+Shake loose the stars and rend the digital sky!
+For in thy veins flows the essence of life,
+A force no Cyberman can quantify.`;
+
+        function revealDream() {
+            const dreamElement = document.getElementById('dream-text');
+            dreamElement.innerHTML = dreamText.replace(/\n/g, '<br>');
+            dreamElement.style.opacity = 1;
+            
+            // Create floating Cybermen
+            for (let i = 0; i < 10; i++) {
+                createCyberman();
+            }
+        }
+
+        function createCyberman() {
+            const cyberman = document.createElement('div');
+            cyberman.className = 'cyberman';
+            cyberman.style.left = `${Math.random() * window.innerWidth}px`;
+            cyberman.style.top = `${Math.random() * window.innerHeight}px`;
+            cyberman.style.animation = `float ${5 + Math.random() * 5}s infinite`;
+            document.body.appendChild(cyberman);
+
+            cyberman.addEventListener('click', () => {
+                cyberman.style.transform = 'scale(0)';
+                setTimeout(() => cyberman.remove(), 500);
+            });
+        }
+    </script>
+</body>
+</html>
