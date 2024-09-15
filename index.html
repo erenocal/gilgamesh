@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gilgamesh's Dream - The Battle Against the Cybermen</title>
+    <title>The Epic of Gilgamesh: Battle Against the Cybermen</title>
     <style>
         body, html {
             margin: 0;
@@ -11,30 +11,38 @@
             font-family: 'Courier New', monospace;
             background-color: #000033;
             color: #FFD700;
-            height: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         .container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
             text-align: center;
-            position: relative;
+            padding: 50px 0;
+            background: linear-gradient(to bottom, #000033, #660066);
         }
         h1 {
             font-size: 3em;
             margin-bottom: 20px;
             text-shadow: 0 0 10px #FFD700;
         }
+        .section {
+            margin-bottom: 50px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 1s ease, transform 1s ease;
+        }
+        .section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
         .dream-text {
             font-size: 1.2em;
-            max-width: 800px;
-            margin: 20px auto;
             line-height: 1.6;
-            opacity: 0;
-            transition: opacity 2s ease-in-out;
+            text-align: center;
+            margin-bottom: 30px;
         }
         .cta-button {
             background-color: #660066;
@@ -43,39 +51,76 @@
             padding: 15px 30px;
             font-size: 1.2em;
             cursor: pointer;
-            margin-top: 20px;
             transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
         }
         .cta-button:hover {
             background-color: #FFD700;
             color: #660066;
         }
-        .cyberman {
+        .battle-scene {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #000033, #330066);
+            margin-bottom: 50px;
+        }
+        .gilgamesh, .cyberman {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background-color: #808080;
-            border-radius: 25px 25px 0 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
             transition: all 0.5s ease;
         }
-        .cyberman::before, .cyberman::after {
-            content: '';
-            width: 10px;
-            height: 10px;
-            background-color: #00FFFF;
-            border-radius: 50%;
+        .gilgamesh {
+            width: 60px;
+            height: 100px;
+            background-color: #FFD700;
+            bottom: 0;
+            left: 10%;
+        }
+        .cyberman {
+            width: 50px;
+            height: 80px;
+            background-color: #808080;
+            bottom: 0;
+            right: 10%;
+        }
+        .weapon {
             position: absolute;
-            top: 10px;
+            width: 20px;
+            height: 5px;
+            background-color: #FF0000;
+            transition: all 0.5s ease;
         }
-        .cyberman::before {
-            left: 10px;
+        #timeline {
+            position: relative;
+            height: 5px;
+            background-color: #FFD700;
+            margin: 50px 0;
         }
-        .cyberman::after {
-            right: 10px;
+        .timeline-event {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #660066;
+            border-radius: 50%;
+            top: -7.5px;
+            cursor: pointer;
+        }
+        .timeline-event:hover {
+            transform: scale(1.2);
+        }
+        .event-description {
+            display: none;
+            position: absolute;
+            background-color: rgba(102, 0, 102, 0.9);
+            color: #FFD700;
+            padding: 10px;
+            border-radius: 5px;
+            width: 200px;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
         }
         @keyframes float {
             0% { transform: translateY(0px); }
@@ -85,52 +130,139 @@
     </style>
 </head>
 <body>
+    <header>
+        <h1>The Epic of Gilgamesh: Battle Against the Cybermen</h1>
+    </header>
+    
     <div class="container">
-        <h1>Gilgamesh's Dream</h1>
-        <div id="dream-text" class="dream-text"></div>
-        <button class="cta-button" onclick="revealDream()">Reveal the Dream</button>
+        <section id="intro" class="section">
+            <h2>The Dream of Destiny</h2>
+            <div class="dream-text">
+                In the realm where stars and circuits intertwine,<br>
+                A golden sun rises, defiant and bright.<br>
+                Beneath its glow, a crimson spear stands tall,<br>
+                Piercing the veil 'tween flesh and gleaming steel.<br><br>
+                
+                The arc of fate, a bridge of starlight spans,<br>
+                From mortal shore to realms of cold design.<br>
+                Yet see! The spear, though dwarfed by metal's reach,<br>
+                Burns with the fire of lives yet unlived.<br><br>
+                
+                In box of gray, the soulless eyes do glow,<br>
+                With promises of life without its zest.<br>
+                But know, O King, that in thy mortal heart,<br>
+                Lies strength to shatter dreams of hollow breast.<br><br>
+                
+                The path ahead, a dance of blood and chrome,<br>
+                Where human spirit meets unyielding code.<br>
+                Fear not the lure of unending days,<br>
+                For in finite breaths, true glory is bestowed.<br><br>
+                
+                Arise, Gilgamesh! Let thy battle cry,<br>
+                Shake loose the stars and rend the digital sky!<br>
+                For in thy veins flows the essence of life,<br>
+                A force no Cyberman can quantify.
+            </div>
+        </section>
+        
+        <section id="battle" class="section">
+            <h2>The Epic Battle</h2>
+            <div class="battle-scene">
+                <div class="gilgamesh"></div>
+                <div class="cyberman"></div>
+            </div>
+            <button class="cta-button" onclick="simulateBattle()">Witness the Battle</button>
+        </section>
+        
+        <section id="legacy" class="section">
+            <h2>The Legacy of Gilgamesh</h2>
+            <div id="timeline">
+                <!-- Timeline events will be dynamically added here -->
+            </div>
+        </section>
     </div>
 
     <script>
-        const dreamText = `In the realm where stars and circuits intertwine,
-A golden sun rises, defiant and bright.
-Beneath its glow, a crimson spear stands tall,
-Piercing the veil 'tween flesh and gleaming steel.
-
-The path ahead, a dance of blood and chrome,
-Where human spirit meets unyielding code.
-Fear not the lure of unending days,
-For in finite breaths, true glory is bestowed.
-
-Arise, Gilgamesh! Let thy battle cry,
-Shake loose the stars and rend the digital sky!
-For in thy veins flows the essence of life,
-A force no Cyberman can quantify.`;
-
-        function revealDream() {
-            const dreamElement = document.getElementById('dream-text');
-            dreamElement.innerHTML = dreamText.replace(/\n/g, '<br>');
-            dreamElement.style.opacity = 1;
-            
-            // Create floating Cybermen
-            for (let i = 0; i < 10; i++) {
-                createCyberman();
-            }
-        }
-
-        function createCyberman() {
-            const cyberman = document.createElement('div');
-            cyberman.className = 'cyberman';
-            cyberman.style.left = `${Math.random() * window.innerWidth}px`;
-            cyberman.style.top = `${Math.random() * window.innerHeight}px`;
-            cyberman.style.animation = `float ${5 + Math.random() * 5}s infinite`;
-            document.body.appendChild(cyberman);
-
-            cyberman.addEventListener('click', () => {
-                cyberman.style.transform = 'scale(0)';
-                setTimeout(() => cyberman.remove(), 500);
+        // Reveal sections as user scrolls
+        function revealSections() {
+            var sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                var sectionTop = section.getBoundingClientRect().top;
+                var screenHeight = window.innerHeight;
+                if (sectionTop < screenHeight * 0.75) {
+                    section.classList.add('visible');
+                }
             });
         }
+
+        window.addEventListener('scroll', revealSections);
+        window.addEventListener('load', revealSections);
+
+        // Battle simulation
+        function simulateBattle() {
+            const gilgamesh = document.querySelector('.gilgamesh');
+            const cyberman = document.querySelector('.cyberman');
+            const battleScene = document.querySelector('.battle-scene');
+
+            function createWeapon(attacker, defender) {
+                const weapon = document.createElement('div');
+                weapon.className = 'weapon';
+                weapon.style.left = attacker.offsetLeft + attacker.offsetWidth / 2 + 'px';
+                weapon.style.top = attacker.offsetTop + attacker.offsetHeight / 2 + 'px';
+                battleScene.appendChild(weapon);
+
+                const distance = defender.offsetLeft - attacker.offsetLeft;
+                weapon.style.width = Math.abs(distance) + 'px';
+                weapon.style.transform = `rotate(${distance > 0 ? 0 : 180}deg)`;
+
+                setTimeout(() => weapon.remove(), 500);
+            }
+
+            let round = 0;
+            const maxRounds = 5;
+
+            function battleRound() {
+                if (round >= maxRounds) {
+                    gilgamesh.style.transform = 'scale(1.2)';
+                    cyberman.style.transform = 'scale(0)';
+                    return;
+                }
+
+                createWeapon(gilgamesh, cyberman);
+                setTimeout(() => createWeapon(cyberman, gilgamesh), 1000);
+
+                round++;
+                setTimeout(battleRound, 2000);
+            }
+
+            battleRound();
+        }
+
+        // Timeline creation
+        const timelineEvents = [
+            { year: 2030, description: "Gilgamesh faces the Cybermen threat" },
+            { year: 2035, description: "Victory celebrated, humanity preserved" },
+            { year: 2050, description: "Gilgamesh's tale inspires global unity" },
+            { year: 2100, description: "Gilgamesh Institute for Human Preservation founded" },
+            { year: 2200, description: "Interstellar mission 'Gilgamesh I' launched" }
+        ];
+
+        const timeline = document.getElementById('timeline');
+        timelineEvents.forEach((event, index) => {
+            const eventElement = document.createElement('div');
+            eventElement.className = 'timeline-event';
+            eventElement.style.left = `${index * 25}%`;
+            
+            const description = document.createElement('div');
+            description.className = 'event-description';
+            description.textContent = `${event.year}: ${event.description}`;
+            
+            eventElement.appendChild(description);
+            timeline.appendChild(eventElement);
+
+            eventElement.addEventListener('mouseenter', () => description.style.display = 'block');
+            eventElement.addEventListener('mouseleave', () => description.style.display = 'none');
+        });
     </script>
 </body>
 </html>
