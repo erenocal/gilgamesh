@@ -9,8 +9,8 @@
             margin: 0;
             padding: 0;
             font-family: 'Courier New', monospace;
-            background-color: #000033;
-            color: #FFD700;
+            background-color: #8B4513; /* Earthy brown */
+            color: #DAA520; /* Golden text */
             overflow-x: hidden;
         }
         .container {
@@ -21,7 +21,10 @@
         header {
             text-align: center;
             padding: 50px 0;
-            background: linear-gradient(to bottom, #000033, #660066);
+            background: linear-gradient(to bottom, #8B4513, #4B0082); /* Brown to deep purple */
+        }
+        h1, h2 {
+            color: #FFD700; /* Bright gold for headings */
         }
         h1 {
             font-size: 3em;
@@ -45,7 +48,7 @@
             margin-bottom: 30px;
         }
         .cta-button {
-            background-color: #660066;
+            background-color: #4B0082; /* Deep purple */
             color: #FFD700;
             border: none;
             padding: 15px 30px;
@@ -57,13 +60,13 @@
         }
         .cta-button:hover {
             background-color: #FFD700;
-            color: #660066;
+            color: #4B0082;
         }
         .battle-scene {
             position: relative;
             height: 400px;
             overflow: hidden;
-            background: linear-gradient(to bottom, #000033, #330066);
+            background: linear-gradient(to bottom, #8B4513, #4B0082);
             margin-bottom: 50px;
         }
         .gilgamesh, .cyberman {
@@ -80,7 +83,7 @@
         .cyberman {
             width: 50px;
             height: 80px;
-            background-color: #808080;
+            background-color: #C0C0C0; /* Silver for Cybermen */
             bottom: 0;
             right: 10%;
         }
@@ -88,20 +91,20 @@
             position: absolute;
             width: 20px;
             height: 5px;
-            background-color: #FF0000;
+            background-color: #B22222; /* Fire brick red */
             transition: all 0.5s ease;
         }
         #timeline {
             position: relative;
             height: 5px;
-            background-color: #FFD700;
+            background-color: #DAA520; /* Golden rod */
             margin: 50px 0;
         }
         .timeline-event {
             position: absolute;
             width: 20px;
             height: 20px;
-            background-color: #660066;
+            background-color: #4B0082;
             border-radius: 50%;
             top: -7.5px;
             cursor: pointer;
@@ -112,7 +115,7 @@
         .event-description {
             display: none;
             position: absolute;
-            background-color: rgba(102, 0, 102, 0.9);
+            background-color: rgba(75, 0, 130, 0.9);
             color: #FFD700;
             padding: 10px;
             border-radius: 5px;
@@ -183,14 +186,21 @@
     </div>
 
     <script>
+        // Logging function
+        function log(message) {
+            console.log(`[Gilgamesh Epic] ${message}`);
+        }
+
         // Reveal sections as user scrolls
         function revealSections() {
+            log('Revealing sections');
             var sections = document.querySelectorAll('.section');
             sections.forEach(section => {
                 var sectionTop = section.getBoundingClientRect().top;
                 var screenHeight = window.innerHeight;
                 if (sectionTop < screenHeight * 0.75) {
                     section.classList.add('visible');
+                    log(`Section ${section.id} revealed`);
                 }
             });
         }
@@ -200,11 +210,13 @@
 
         // Battle simulation
         function simulateBattle() {
+            log('Battle simulation started');
             const gilgamesh = document.querySelector('.gilgamesh');
             const cyberman = document.querySelector('.cyberman');
             const battleScene = document.querySelector('.battle-scene');
 
             function createWeapon(attacker, defender) {
+                log(`Creating weapon from ${attacker.className} to ${defender.className}`);
                 const weapon = document.createElement('div');
                 weapon.className = 'weapon';
                 weapon.style.left = attacker.offsetLeft + attacker.offsetWidth / 2 + 'px';
@@ -215,7 +227,10 @@
                 weapon.style.width = Math.abs(distance) + 'px';
                 weapon.style.transform = `rotate(${distance > 0 ? 0 : 180}deg)`;
 
-                setTimeout(() => weapon.remove(), 500);
+                setTimeout(() => {
+                    weapon.remove();
+                    log('Weapon removed');
+                }, 500);
             }
 
             let round = 0;
@@ -225,9 +240,11 @@
                 if (round >= maxRounds) {
                     gilgamesh.style.transform = 'scale(1.2)';
                     cyberman.style.transform = 'scale(0)';
+                    log('Battle ended. Gilgamesh victorious!');
                     return;
                 }
 
+                log(`Battle round ${round + 1} started`);
                 createWeapon(gilgamesh, cyberman);
                 setTimeout(() => createWeapon(cyberman, gilgamesh), 1000);
 
@@ -247,6 +264,7 @@
             { year: 2200, description: "Interstellar mission 'Gilgamesh I' launched" }
         ];
 
+        log('Creating timeline');
         const timeline = document.getElementById('timeline');
         timelineEvents.forEach((event, index) => {
             const eventElement = document.createElement('div');
@@ -260,9 +278,32 @@
             eventElement.appendChild(description);
             timeline.appendChild(eventElement);
 
-            eventElement.addEventListener('mouseenter', () => description.style.display = 'block');
-            eventElement.addEventListener('mouseleave', () => description.style.display = 'none');
+            eventElement.addEventListener('mouseenter', () => {
+                description.style.display = 'block';
+                log(`Timeline event ${event.year} description shown`);
+            });
+            eventElement.addEventListener('mouseleave', () => {
+                description.style.display = 'none';
+                log(`Timeline event ${event.year} description hidden`);
+            });
         });
+
+        // Function to check timeline visibility
+        function checkTimelineVisibility() {
+            const timeline = document.getElementById('timeline');
+            const rect = timeline.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight && rect.bottom >= 0;
+            log(`Timeline visibility: ${isVisible ? 'visible' : 'not visible'}`);
+            if (!isVisible) {
+                log('Warning: Timeline may be hidden. Please check CSS and layout.');
+            }
+        }
+
+        // Run visibility check on load and scroll
+        window.addEventListener('load', checkTimelineVisibility);
+        window.addEventListener('scroll', checkTimelineVisibility);
+
+        log('Gilgamesh Epic initialization complete');
     </script>
 </body>
 </html>
